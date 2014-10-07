@@ -149,7 +149,7 @@ public class MusicPlayer {
             currentPosition = i;
         }
     }
-    //Comment
+
     public int getDuration() {
         return mp.getDuration();
     }
