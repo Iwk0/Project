@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        musicPlayer = new MusicPlayer(MainActivity.this, "/program/", 1, R.id.seekBar, R.id.image);
+        musicPlayer = new MusicPlayer(this, "/program/", 1, R.id.seekBar, R.id.image);
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(musicPlayer.getDuration());
