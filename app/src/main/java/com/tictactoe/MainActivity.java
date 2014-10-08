@@ -2,6 +2,7 @@ package com.tictactoe;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         musicPlayer = new MusicPlayer(this, "/program/", 1, R.id.seekBar, R.id.image);
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
