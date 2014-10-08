@@ -7,7 +7,9 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 
 import com.tictactoe.model.Audio;
@@ -39,6 +41,7 @@ public class MusicPlayer {
     private Handler handler;
     private Runnable runnable;
     private SeekBar seekBar;
+    private ProgressBar progressBar;
     private Audio audio;
     private Image image;
     private ImageView imageView;
@@ -47,10 +50,12 @@ public class MusicPlayer {
 
     private int audioId, currentPosition, oldIndex = -1, newIndex;
 
-    public MusicPlayer(Activity activity, String xmlPath, int audioId, int seekBarId, final int imageViewId) {
+    public MusicPlayer(Activity activity, String xmlPath, int audioId, int seekBarId, final int imageViewId, final int progressBarId) {
         this.xmlPath = xmlPath;
         this.audioId = audioId;
         this.mp = new MediaPlayer();
+
+        progressBar = (ProgressBar) activity.findViewById(progressBarId);
 
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
@@ -94,8 +99,7 @@ public class MusicPlayer {
         handler = new Handler();
         runnable = new Runnable() {
 
-            private final int IMAGE_SIZE = image.getPaths().size();
-            private final double INTERVAL = mp.getDuration() * 1.0 / IMAGE_SIZE;
+            private final double INTERVAL = mp.getDuration() * 1.0 / image.getPaths().size();
 
             @Override
             public void run() {
@@ -103,9 +107,14 @@ public class MusicPlayer {
                 seekBar.setProgress(currentPosition);
                 newIndex = (int) (currentPosition / INTERVAL);
 
-                if (newIndex != oldIndex && newIndex < IMAGE_SIZE) {
-                    imageView.setImageBitmap(images.get(newIndex));
-                    oldIndex = newIndex;
+                if (newIndex != oldIndex) {
+                    if (newIndex < images.size()) {
+                        imageView.setImageBitmap(images.get(newIndex));
+                        oldIndex = newIndex;
+                        progressBar.setVisibility(View.GONE);
+                    } else {
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 handler.postDelayed(this, 1000);

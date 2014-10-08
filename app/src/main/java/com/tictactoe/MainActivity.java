@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        musicPlayer = new MusicPlayer(this, "/program/", 1, R.id.seekBar, R.id.image);
+        musicPlayer = new MusicPlayer(this, "/program/", 1, R.id.seekBar, R.id.image, R.id.progressBar);
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(musicPlayer.getDuration());
