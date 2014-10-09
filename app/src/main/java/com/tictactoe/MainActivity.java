@@ -2,14 +2,17 @@ package com.tictactoe;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -20,7 +23,7 @@ public class MainActivity extends Activity {
 
     private MusicPlayer musicPlayer;
     private SeekBar seekBar;
-    private Button playButton;
+    private ImageButton playButton;
     private ArrayList<String> absolutePath;
 
     @Override
@@ -53,7 +56,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        findViewById(R.id.restart).setOnClickListener(new View.OnClickListener() {
+/*        findViewById(R.id.controlButton).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -64,19 +67,19 @@ public class MainActivity extends Activity {
                     Log.i("SONG PATH", path);
                 }
             }
-        });
+        });*/
 
-        playButton = (Button) findViewById(R.id.play);
+        playButton = (ImageButton) findViewById(R.id.controlButton);
         playButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 if (musicPlayer.isPlaying()) {
                     musicPlayer.pause();
-                    ((Button) view).setText("Play");
+                    ((ImageButton) view).setImageResource(R.drawable.play);
                 } else {
                     musicPlayer.start();
-                    ((Button) view).setText("Pause");
+                    ((ImageButton) view).setImageResource(R.drawable.pause);
                 }
             }
         });
@@ -86,7 +89,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 musicPlayer.stop();
-                playButton.setText("Play");
+                playButton.setImageResource(R.drawable.play);
             }
         });
 

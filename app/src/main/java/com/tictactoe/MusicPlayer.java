@@ -45,15 +45,16 @@ public class MusicPlayer {
     private Audio audio;
     private Image image;
     private ImageView imageView;
-    private List<Bitmap> images;
     private String xmlPath;
 
     private int audioId, currentPosition, oldIndex = -1, newIndex;
+    private boolean isStopped;
 
     public MusicPlayer(Activity activity, String xmlPath, int audioId, int seekBarId, final int imageViewId, final int progressBarId) {
         this.xmlPath = xmlPath;
         this.audioId = audioId;
         this.mp = new MediaPlayer();
+        this.isStopped = true;
 
         progressBar = (ProgressBar) activity.findViewById(progressBarId);
 
@@ -80,26 +81,14 @@ public class MusicPlayer {
             Log.e("XmlPullParserException", e.getMessage());
         }
 
-        images = new ArrayList<Bitmap>();
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... paths) {
-                for (String path : image.getPaths()) {
-                    images.add(ImageResize.decodeSampledBitmapFromUri(STORAGE_PATH + path, 250, 250));
-                }
-
-                return null;
-            }
-        }.execute();
-
         seekBar = (SeekBar) activity.findViewById(seekBarId);
         imageView = (ImageView) activity.findViewById(imageViewId);
 
         handler = new Handler();
         runnable = new Runnable() {
 
-            private final double INTERVAL = mp.getDuration() * 1.0 / image.getPaths().size();
+            private final int IMAGE_SIZE = image.getPaths().size();
+            private final double INTERVAL = mp.getDuration() * 1.0 / IMAGE_SIZE;
 
             @Override
             public void run() {
@@ -107,14 +96,27 @@ public class MusicPlayer {
                 seekBar.setProgress(currentPosition);
                 newIndex = (int) (currentPosition / INTERVAL);
 
-                if (newIndex != oldIndex) {
-                    if (newIndex < images.size()) {
-                        imageView.setImageBitmap(images.get(newIndex));
-                        oldIndex = newIndex;
-                        progressBar.setVisibility(View.GONE);
-                    } else {
-                        progressBar.setVisibility(View.VISIBLE);
-                    }
+                if (newIndex != oldIndex && newIndex < IMAGE_SIZE) {
+                    new AsyncTask<Void, Void, Bitmap>() {
+
+                        @Override
+                        protected void onPreExecute() {
+                            imageView.setImageBitmap(null);
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        protected void onPostExecute(Bitmap bitmap) {
+                            progressBar.setVisibility(View.GONE);
+                            imageView.setImageBitmap(bitmap);
+                            oldIndex = newIndex;
+                        }
+
+                        @Override
+                        protected Bitmap doInBackground(Void... voids) {
+                            return ImageResize.decodeSampledBitmapFromUri(STORAGE_PATH + image.getPaths().get(newIndex), 250, 250);
+                        }
+                    }.execute();
                 }
 
                 handler.postDelayed(this, 1000);
@@ -124,13 +126,16 @@ public class MusicPlayer {
 
     public void start() {
         mp.start();
-        mp.seekTo(currentPosition);
-        handler.post(runnable);
+
+        if (isStopped) {
+            mp.seekTo(seekBar.getProgress());
+            handler.post(runnable);
+            isStopped = false;
+        }
     }
 
     public void pause() {
         mp.pause();
-        handler.removeCallbacks(runnable);
     }
 
     public void stop() {
@@ -146,16 +151,15 @@ public class MusicPlayer {
             Log.e("IOException", e.getMessage());
         }
 
+        isStopped = true;
         oldIndex = - 1;
         currentPosition = 0;
         seekBar.setProgress(0);
     }
 
     public void seekTo(int i) {
-        if (mp.isPlaying()) {
+        if (!isStopped) {
             mp.seekTo(i);
-        } else {
-            currentPosition = i;
         }
     }
 

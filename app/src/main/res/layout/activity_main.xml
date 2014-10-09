@@ -5,23 +5,28 @@
     android:layout_height="match_parent"
     tools:context=".Playground">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
-        android:indeterminateDrawable="@drawable/progress" >
-    </ProgressBar>
-
-    <ImageView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/image"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/seekBar" />
+        android:layout_above="@+id/seekBar">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:indeterminateDrawable="@drawable/progress" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/image"
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
 
     <SeekBar
         android:layout_width="match_parent"
@@ -32,24 +37,39 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:background="@drawable/control_background"
         android:layout_alignParentBottom="true"
         android:id="@+id/menu">
 
-        <Button
-            style="@style/CustomStyle"
-            android:text="@string/action_settings"
-            android:id="@+id/stop" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:id="@+id/back"
+            android:src="@drawable/back" />
 
-        <Button
-            style="@style/CustomStyle"
-            android:text="@string/restart"
-            android:id="@+id/restart" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:id="@+id/stop"
+            android:src="@drawable/stop" />
 
-        <Button
-            style="@style/CustomStyle"
-            android:text="@string/play"
-            android:id="@+id/play" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:id="@+id/controlButton"
+            android:src="@drawable/play" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:id="@+id/forward"
+            android:src="@drawable/forward" />
 
     </LinearLayout>
 
