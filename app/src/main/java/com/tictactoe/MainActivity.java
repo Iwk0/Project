@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
@@ -107,7 +106,7 @@ public class MainActivity extends Activity {
         musicPlayer.release();
     }
 
-    private void getAbsolutePathOfAllSongs(File dir) {
+/*    private void getAbsolutePathOfAllSongs(File dir) {
         String extension = ".mp3";
 
         File[] listFile = dir.listFiles();
@@ -123,7 +122,7 @@ public class MainActivity extends Activity {
                 }
             }
         }
-    }
+    }*/
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

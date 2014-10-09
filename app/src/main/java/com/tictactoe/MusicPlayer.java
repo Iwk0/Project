@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Created by imishev on 25.9.2014 г..
  */
-public class MusicPlayer {
+public final class MusicPlayer {
 
     private final static String ID = "id";
     private final static String PATH = "path";
