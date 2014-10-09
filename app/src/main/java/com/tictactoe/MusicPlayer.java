@@ -50,7 +50,7 @@ public class MusicPlayer {
     private int audioId, currentPosition, oldIndex = -1, newIndex;
     private boolean isStopped;
 
-    public MusicPlayer(Activity activity, String xmlPath, int audioId, int seekBarId, final int imageViewId, final int progressBarId) {
+    public MusicPlayer(Activity activity, String xmlPath, int audioId, int seekBarId, int imageViewId, int progressBarId) {
         this.xmlPath = xmlPath;
         this.audioId = audioId;
         this.mp = new MediaPlayer();
