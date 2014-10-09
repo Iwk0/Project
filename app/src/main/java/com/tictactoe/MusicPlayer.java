@@ -163,6 +163,12 @@ public class MusicPlayer {
         }
     }
 
+    public void release() {
+        handler.removeCallbacks(runnable);
+        mp.release();
+        mp = null;
+    }
+
     public int getDuration() {
         return mp.getDuration();
     }

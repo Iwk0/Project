@@ -2,16 +2,11 @@ package com.tictactoe;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -98,6 +93,18 @@ public class MainActivity extends Activity {
         } else {
             Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        musicPlayer = new MusicPlayer(this, "/program/", 1, R.id.seekBar, R.id.image, R.id.progressBar);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        musicPlayer.release();
     }
 
     private void getAbsolutePathOfAllSongs(File dir) {
