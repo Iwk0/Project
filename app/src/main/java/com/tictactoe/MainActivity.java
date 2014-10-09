@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
     private MusicPlayer musicPlayer;
     private SeekBar seekBar;
     private ImageButton playButton;
-    private ArrayList<String> absolutePath;
+    //private ArrayList<String> absolutePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

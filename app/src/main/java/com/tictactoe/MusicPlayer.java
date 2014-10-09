@@ -56,8 +56,6 @@ public final class MusicPlayer {
         this.mp = new MediaPlayer();
         this.isStopped = true;
 
-        progressBar = (ProgressBar) activity.findViewById(progressBarId);
-
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
             @Override
@@ -81,6 +79,7 @@ public final class MusicPlayer {
             Log.e("XmlPullParserException", e.getMessage());
         }
 
+        progressBar = (ProgressBar) activity.findViewById(progressBarId);
         seekBar = (SeekBar) activity.findViewById(seekBarId);
         imageView = (ImageView) activity.findViewById(imageViewId);
 
